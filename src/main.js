@@ -6,11 +6,11 @@ const createWindow = () => {
         width: 800,
         height: 600,
         webPreferences: {
-            preload: path.join(__dirname, 'preload.js')
+            preload: path.join(__dirname, 'script/preload.js')
         }
     })
     win.webContents.openDevTools()
-    win.loadFile('index.html')
+    win.loadFile('src/index.html')
 }
 
 app.whenReady().then(() => {
