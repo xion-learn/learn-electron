@@ -2,7 +2,7 @@
   "name": "electron-study",
   "version": "1.0.0",
   "description": "study",
-  "main": "src/main.js",
+  "main": "src/main.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron-forge start",
@@ -31,6 +31,7 @@
     "electron": "^26.2.2"
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "typescript": "^5.2.2"
   }
 }
