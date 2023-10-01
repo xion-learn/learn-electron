@@ -10,3 +10,15 @@ button.addEventListener('click', () => {
   const newTitle = input.value
   window.setTitle(newTitle)
 })
+
+const openFileButton = document.getElementById('openFile')
+const pathSpan = document.getElementById('path')
+openFileButton.addEventListener('click', async () => {
+  const path = await window.openFile()
+  console.log('path', path)
+  pathSpan.innerText = path
+})
+
+window.listenUpdateCount((event, value) => {
+  console.log(value)
+})

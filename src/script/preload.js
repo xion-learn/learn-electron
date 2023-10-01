@@ -10,3 +10,11 @@ contextBridge.exposeInMainWorld('versions', {
 contextBridge.exposeInMainWorld('setTitle', (newTitle) => {
     ipcRenderer.send('set-title', newTitle)
 })
+
+contextBridge.exposeInMainWorld('openFile', () => {
+    return ipcRenderer.invoke('dialog:openFile')
+})
+
+contextBridge.exposeInMainWorld('listenUpdateCount', (callback) => {
+    ipcRenderer.on('update-counter', callback)
+})
