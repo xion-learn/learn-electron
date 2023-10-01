@@ -1,3 +1,12 @@
-var information = document.getElementById('info');
+const information = document.getElementById('info')
 information.innerText =
-    "\u672C\u5E94\u7528\u6B63\u5728\u4F7F\u7528 Chrome (v".concat(window.versions.chrome(), "),\n  Node.js (v").concat(window.versions.node(), "),\n  \u548C Electron (v").concat(window.versions.electron(), ")");
+  `本应用正在使用 Chrome (v${window.versions.chrome()}),
+  Node.js (v${window.versions.node()}),
+  和 Electron (v${window.versions.electron()})`
+
+const button = document.getElementById('button')
+button.addEventListener('click', () => {
+  const input = document.getElementsByTagName('input')[0]
+  const newTitle = input.value
+  window.setTitle(newTitle)
+})

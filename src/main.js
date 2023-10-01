@@ -1,12 +1,14 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('node:path')
 
+let win
+
 const createWindow = () => {
-    const win = new BrowserWindow({
+    win = new BrowserWindow({
         width: 800,
         height: 600,
         webPreferences: {
-            preload: path.join(__dirname, 'script/preload.ts')
+            preload: path.join(__dirname, 'script/preload.js')
         }
     })
     win.webContents.openDevTools()
@@ -15,5 +17,7 @@ const createWindow = () => {
 
 app.whenReady().then(() => {
     createWindow()
-    console.log(process.versions)
+    ipcMain.on('set-title', (event, newTitle) => {
+        win.setTitle(newTitle)
+    })
 })
