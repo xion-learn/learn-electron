@@ -1,9 +1,8 @@
 const information = document.getElementById('info')
 information.innerText =
-  `本应用正在使用 Chrome (v${window.versions.chrome()}),
-  Node.js (v${window.versions.node()}),
-  和 Electron (v${window.versions.electron()})`
+  `本应用正在使用 Chrome (v${window.versions.chrome()}),Node.js (v${window.versions.node()}),和 Electron (v${window.versions.electron()})`
 
+// 通信：渲染器进程 => 主进程
 const button = document.getElementById('button')
 button.addEventListener('click', () => {
   const input = document.getElementsByTagName('input')[0]
@@ -11,6 +10,7 @@ button.addEventListener('click', () => {
   window.setTitle(newTitle)
 })
 
+// 通信：渲染器进程 <=> 主进程
 const openFileButton = document.getElementById('openFile')
 const pathSpan = document.getElementById('path')
 openFileButton.addEventListener('click', async () => {
@@ -19,6 +19,8 @@ openFileButton.addEventListener('click', async () => {
   pathSpan.innerText = path
 })
 
+// 通信：主进程 => 渲染器进程
+const selectedValueSpan = document.getElementById('selectedValue')
 window.listenUpdateCount((event, value) => {
-  console.log(value)
+  selectedValueSpan.innerText = value
 })

@@ -1,20 +1,20 @@
 const { contextBridge, ipcRenderer } = require('electron')
 
 contextBridge.exposeInMainWorld('versions', {
-    node: () => process.versions.node,
-    chrome: () => process.versions.chrome,
-    electron: () => process.versions.electron
-    // 除函数之外，我们也可以暴露变量
+  node: () => process.versions.node,
+  chrome: () => process.versions.chrome,
+  electron: () => process.versions.electron
+  // 除函数之外，我们也可以暴露变量
 })
 
 contextBridge.exposeInMainWorld('setTitle', (newTitle) => {
-    ipcRenderer.send('set-title', newTitle)
+  ipcRenderer.send('set-title', newTitle)
 })
 
 contextBridge.exposeInMainWorld('openFile', () => {
-    return ipcRenderer.invoke('dialog:openFile')
+  return ipcRenderer.invoke('dialog:openFile')
 })
 
 contextBridge.exposeInMainWorld('listenUpdateCount', (callback) => {
-    ipcRenderer.on('update-counter', callback)
+  ipcRenderer.on('update-counter', callback)
 })

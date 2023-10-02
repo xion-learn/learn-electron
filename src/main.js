@@ -4,42 +4,48 @@ const path = require('node:path')
 let win
 
 const createWindow = () => {
-    win = new BrowserWindow({
-        width: 800,
-        height: 600,
-        webPreferences: {
-            preload: path.join(__dirname, 'script/preload.js')
-        }
-    })
-    win.webContents.openDevTools()
+  win = new BrowserWindow({
+    width: 800,
+    height: 600,
+    webPreferences: {
+        preload: path.join(__dirname, 'script/preload.js')
+    }
+  })
+  win.webContents.openDevTools()
+  win.loadFile('src/index.html')
+}
 
-    const menu = Menu.buildFromTemplate([
+function createMenu() {
+  const menu = Menu.buildFromTemplate([
+    {
+      label: app.name,
+      submenu: [
         {
-            label: app.name,
-            submenu: [
-                {
-                    click: () => win.webContents.send('update-counter', 1),
-                    label: 'Increment'
-                },
-                {
-                    click: () => win.webContents.send('update-counter', -1),
-                    label: 'Decrement'
-                }
-            ]
+          click: () => win.webContents.send('update-counter', 1),
+          label: 'Increment'
+        },
+        {
+          click: () => win.webContents.send('update-counter', -1),
+          label: 'Decrement'
         }
-    ])
-    Menu.setApplicationMenu(menu)
-
-    win.loadFile('src/index.html')
+      ]
+    }
+  ])
+  Menu.setApplicationMenu(menu)
 }
 
 app.whenReady().then(() => {
-    ipcMain.handle('dialog:openFile', async () => {
-        const { filePaths } = await dialog.showOpenDialog()
-        return filePaths[0]
-    })
-    createWindow()
-    ipcMain.on('set-title', (event, newTitle) => {
-        win.setTitle(newTitle)
-    })
+  createWindow()
+  createMenu()
+  ipcMain.on('set-title', setTitleHandler)
+  ipcMain.handle('dialog:openFile', openFileHandler)
 })
+
+function setTitleHandler(event, newTitle) {
+  win.setTitle(newTitle)
+}
+
+async function openFileHandler() {
+  const { filePaths } = await dialog.showOpenDialog()
+  return filePaths[0]
+}
