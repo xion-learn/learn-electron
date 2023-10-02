@@ -39,6 +39,7 @@ app.whenReady().then(() => {
   createMenu()
   ipcMain.on('set-title', setTitleHandler)
   ipcMain.handle('dialog:openFile', openFileHandler)
+  ipcMain.on('port', portHandler)
 })
 
 function setTitleHandler(event, newTitle) {
@@ -48,4 +49,13 @@ function setTitleHandler(event, newTitle) {
 async function openFileHandler() {
   const { filePaths } = await dialog.showOpenDialog()
   return filePaths[0]
+}
+
+function portHandler(event) {
+  const port = event.ports[0]
+  port.on('message',(e) => {
+    const data = e.data
+    console.log(data)
+  })
+  port.start()
 }
