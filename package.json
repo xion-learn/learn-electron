@@ -1,5 +1,5 @@
 {
-  "name": "electron-study",
+  "name": "study-electron",
   "version": "1.0.0",
   "description": "study",
   "main": "src/main.js",
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xionkq/electron-study.git"
+    "url": "git+https://github.com/xionkq/study-electron.git"
   },
   "author": "xion",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/xionkq/electron-study/issues"
+    "url": "https://github.com/xionkq/study-electron/issues"
   },
-  "homepage": "https://github.com/xionkq/electron-study#readme",
+  "homepage": "https://github.com/xionkq/study-electron#readme",
   "devDependencies": {
     "@electron-forge/cli": "^6.4.2",
     "@electron-forge/maker-deb": "^6.4.2",
