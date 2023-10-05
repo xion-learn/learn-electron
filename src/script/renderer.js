@@ -24,3 +24,9 @@ const selectedValueSpan = document.getElementById('selectedValue')
 window.listenUpdateCount((event, value) => {
   selectedValueSpan.innerText = value
 })
+
+// 实践：切换主题
+const changeThemeButton = document.getElementById('changeTheme')
+changeThemeButton.addEventListener('click', () => {
+  window.changeTheme()
+})

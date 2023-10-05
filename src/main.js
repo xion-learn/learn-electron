@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron')
+const { app, BrowserWindow, ipcMain, dialog, Menu, nativeTheme } = require('electron')
 const path = require('node:path')
 
 let win
@@ -18,14 +18,14 @@ const createWindow = () => {
 function createMenu() {
   const menu = Menu.buildFromTemplate([
     {
-      label: app.name,
+      label: '菜单',
       submenu: [
         {
-          click: () => win.webContents.send('update-counter', 1),
+          click: () => win.webContents.send('update-counter', 'Increment'),
           label: 'Increment'
         },
         {
-          click: () => win.webContents.send('update-counter', -1),
+          click: () => win.webContents.send('update-counter', 'Decrement'),
           label: 'Decrement'
         }
       ]
@@ -40,6 +40,7 @@ app.whenReady().then(() => {
   ipcMain.on('set-title', setTitleHandler)
   ipcMain.handle('dialog:openFile', openFileHandler)
   ipcMain.on('port', portHandler)
+  ipcMain.on('change-theme', changeThemeHandler)
 })
 
 function setTitleHandler(event, newTitle) {
@@ -58,4 +59,13 @@ function portHandler(event) {
     console.log(data)
   })
   port.start()
+}
+
+function changeThemeHandler() {
+  if (nativeTheme.themeSource === 'dark') {
+    nativeTheme.themeSource = 'light'
+  } else {
+    nativeTheme.themeSource = 'dark'
+  }
+  return nativeTheme.shouldUseDarkColors
 }

@@ -24,3 +24,7 @@ const port1 = channel.port1
 const port2 = channel.port2
 port2.postMessage('hello world')
 ipcRenderer.postMessage('port', null, [port1])
+
+contextBridge.exposeInMainWorld('changeTheme', () => {
+  ipcRenderer.send('change-theme')
+})
