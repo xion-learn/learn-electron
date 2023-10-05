@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog, Menu, nativeTheme } = require('electron')
+const { app, BrowserWindow, ipcMain, dialog, Menu, MenuItem, nativeTheme, globalShortcut } = require('electron')
 const path = require('node:path')
 
 let win
@@ -31,6 +31,15 @@ function createMenu() {
       ]
     }
   ])
+  menu.append(new MenuItem({
+    label: 'Electron',
+    submenu: [{
+      role: 'help',
+      // 监听快捷键，需要应用获取焦点
+      accelerator: process.platform === 'darwin' ? 'Alt+Cmd+I' : 'Alt+Shift+I',
+      click: () => { console.log('Electron rocks!') }
+    }]
+  }))
   Menu.setApplicationMenu(menu)
 }
 
@@ -41,6 +50,10 @@ app.whenReady().then(() => {
   ipcMain.handle('dialog:openFile', openFileHandler)
   ipcMain.on('port', portHandler)
   ipcMain.on('change-theme', changeThemeHandler)
+  // 全局快捷键监听，无需获取焦点
+  globalShortcut.register('Alt+CommandOrControl+J', () => {
+    console.log('Electron loves global shortcuts!')
+  })
 })
 
 function setTitleHandler(event, newTitle) {
