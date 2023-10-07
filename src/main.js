@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog, Menu, MenuItem, nativeTheme, globalShortcut } = require('electron')
+const { app, Tray, BrowserWindow, ipcMain, dialog, Menu, MenuItem, nativeTheme, globalShortcut } = require('electron')
 const path = require('node:path')
 
 let win
@@ -9,7 +9,8 @@ const createWindow = () => {
     height: 600,
     webPreferences: {
         preload: path.join(__dirname, 'script/preload.js')
-    }
+    },
+    icon: path.join(__dirname,'../public/logo.png')
   })
   win.webContents.openDevTools()
   win.loadFile('src/index.html')
