@@ -44,18 +44,39 @@ function createMenu() {
   Menu.setApplicationMenu(menu)
 }
 
-app.whenReady().then(() => {
-  createWindow()
-  createMenu()
-  ipcMain.on('set-title', setTitleHandler)
-  ipcMain.handle('dialog:openFile', openFileHandler)
-  ipcMain.on('port', portHandler)
-  ipcMain.on('change-theme', changeThemeHandler)
-  // 全局快捷键监听，无需获取焦点
-  globalShortcut.register('Alt+CommandOrControl+J', () => {
-    console.log('Electron loves global shortcuts!')
+const gotTheLock = app.requestSingleInstanceLock()
+
+// 如果窗口存在，则不打开新窗口，并focus原窗口
+if (!gotTheLock) {
+  app.quit()
+} else {
+  app.on('second-instance', (event, commandLine, workingDirectory) => {
+    // Someone tried to run a second instance, we should focus our window.
+    if (win) {
+      if (win.isMinimized()) win.restore()
+      win.focus()
+    }
+    dialog.showErrorBox('Welcome Back', `You arrived from: ${commandLine.pop().slice(0, -1)}`)
   })
-})
+
+  app.whenReady().then(() => {
+    createWindow()
+    createMenu()
+    ipcMain.on('set-title', setTitleHandler)
+    ipcMain.handle('dialog:openFile', openFileHandler)
+    ipcMain.on('port', portHandler)
+    ipcMain.on('change-theme', changeThemeHandler)
+    // 全局快捷键监听，无需获取焦点
+    globalShortcut.register('Alt+CommandOrControl+J', () => {
+      console.log('Electron loves global shortcuts!')
+    })
+    setProtocolClient()
+  })
+
+  app.on('open-url', (event, url) => {
+    dialog.showErrorBox('Welcome Back', `You arrived from: ${url}`)
+  })
+}
 
 function setTitleHandler(event, newTitle) {
   win.setTitle(newTitle)
@@ -82,4 +103,14 @@ function changeThemeHandler() {
     nativeTheme.themeSource = 'dark'
   }
   return nativeTheme.shouldUseDarkColors
+}
+
+function setProtocolClient() {
+  if (process.defaultApp) {
+    if (process.argv.length >= 2) {
+      app.setAsDefaultProtocolClient('electron-fiddle', process.execPath, [path.resolve(process.argv[1])])
+    }
+  } else {
+    app.setAsDefaultProtocolClient('electron-fiddle')
+  }
 }
