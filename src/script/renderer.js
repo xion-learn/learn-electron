@@ -30,3 +30,10 @@ const changeThemeButton = document.getElementById('changeTheme')
 changeThemeButton.addEventListener('click', () => {
   window.changeTheme()
 })
+
+// 实践：渲染器进程使用通知
+const NOTIFICATION_TITLE = 'Title'
+const NOTIFICATION_BODY = 'Notification from the Renderer process. Click to log to console.'
+const CLICK_MESSAGE = 'Notification clicked!'
+new window.Notification(NOTIFICATION_TITLE, { body: NOTIFICATION_BODY })
+  .onclick = () => { document.getElementById('output').innerText = CLICK_MESSAGE }

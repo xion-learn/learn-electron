@@ -1,4 +1,4 @@
-const { app, Tray, BrowserWindow, ipcMain, dialog, Menu, MenuItem, nativeTheme, globalShortcut } = require('electron')
+const { app, Tray, BrowserWindow, ipcMain, dialog, Menu, MenuItem, nativeTheme, globalShortcut, Notification } = require('electron')
 const path = require('node:path')
 
 let win
@@ -71,6 +71,7 @@ if (!gotTheLock) {
       console.log('Electron loves global shortcuts!')
     })
     setProtocolClient()
+    openNotification()
   })
 
   app.on('open-url', (event, url) => {
@@ -113,4 +114,15 @@ function setProtocolClient() {
   } else {
     app.setAsDefaultProtocolClient('electron-fiddle')
   }
+}
+
+// 主进程中使用通知
+function openNotification() {
+  const NOTIFICATION_TITLE = 'Basic Notification'
+  const NOTIFICATION_BODY = 'Notification from the Main process'
+
+  new Notification({
+    title: NOTIFICATION_TITLE,
+    body: NOTIFICATION_BODY
+  }).show()
 }
