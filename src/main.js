@@ -2,6 +2,7 @@ const { app, Tray, BrowserWindow, ipcMain, dialog, Menu, MenuItem, nativeTheme, 
 const path = require('node:path')
 
 let win
+let progressInterval
 
 const createWindow = () => {
   win = new BrowserWindow({
@@ -72,10 +73,15 @@ if (!gotTheLock) {
     })
     setProtocolClient()
     openNotification()
+    createProgress()
   })
 
   app.on('open-url', (event, url) => {
     dialog.showErrorBox('Welcome Back', `You arrived from: ${url}`)
+  })
+
+  app.on('before-quit', () => {
+    clearInterval(progressInterval)
   })
 }
 
@@ -125,4 +131,21 @@ function openNotification() {
     title: NOTIFICATION_TITLE,
     body: NOTIFICATION_BODY
   }).show()
+}
+
+// 创建一个进度条，类似于Chrome下载
+function createProgress() {
+  const INCREMENT = 0.03
+  const INTERVAL_DELAY = 100 // ms
+
+  let c = 0
+  progressInterval = setInterval(() => {
+    win.setProgressBar(c)
+
+    if (c < 2) {
+      c += INCREMENT
+    } else {
+      c = (-INCREMENT * 5)
+    }
+  }, INTERVAL_DELAY)
 }
