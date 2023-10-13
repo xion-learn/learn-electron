@@ -51,6 +51,7 @@ const gotTheLock = app.requestSingleInstanceLock()
 if (!gotTheLock) {
   app.quit()
 } else {
+  createJumpList()
   app.on('second-instance', (event, commandLine, workingDirectory) => {
     // Someone tried to run a second instance, we should focus our window.
     if (win) {
@@ -169,4 +170,18 @@ function createTray() {
     { label: '退出', type: 'normal', click: quitApplication },
   ])
   tray.setContextMenu(contextMenu)
+}
+
+// 创建自定义任务栏，JumpList(其实是创建一个任务快捷键)
+function createJumpList() {
+  app.setUserTasks([
+    {
+      program: process.execPath,
+      arguments: '--new-window',
+      iconPath: process.execPath,
+      iconIndex: 0,
+      title: 'New Window',
+      description: 'Create a new window'
+    }
+  ])
 }
