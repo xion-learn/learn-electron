@@ -1,4 +1,4 @@
-const { app, Tray, BrowserWindow, ipcMain, dialog, Menu, MenuItem, nativeTheme, globalShortcut, Notification } = require('electron')
+const { app, Tray, nativeImage, BrowserWindow, ipcMain, dialog, Menu, MenuItem, nativeTheme, globalShortcut, Notification } = require('electron')
 const path = require('node:path')
 
 let win
@@ -74,6 +74,7 @@ if (!gotTheLock) {
     setProtocolClient()
     openNotification()
     createProgress()
+    createTray()
   })
 
   app.on('open-url', (event, url) => {
@@ -148,4 +149,24 @@ function createProgress() {
       c = (-INCREMENT * 5)
     }
   }, INTERVAL_DELAY)
+}
+
+function quitApplication() {
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
+}
+
+// 创建托盘，也就是右下角里的小图标
+function createTray() {
+  const icon = nativeImage.createFromPath(path.join(__dirname,'../public/logo.png'))
+  const tray = new Tray(icon)
+
+  const contextMenu = Menu.buildFromTemplate([
+    { label: 'Item2', type: 'radio' },
+    { label: 'Item3', type: 'radio', checked: true },
+    { label: 'Item4', type: 'radio' },
+    { label: '退出', type: 'normal', click: quitApplication },
+  ])
+  tray.setContextMenu(contextMenu)
 }
