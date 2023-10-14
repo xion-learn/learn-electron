@@ -11,7 +11,19 @@ const createWindow = () => {
     webPreferences: {
         preload: path.join(__dirname, 'script/preload.js')
     },
-    icon: path.join(__dirname,'../public/logo.png')
+    icon: path.join(__dirname,'../public/logo.png'),
+    // 消除窗口边框和原生菜单栏
+    titleBarStyle: 'hidden',
+    // 似乎是同上
+    frame: false,
+    // 自定义一个窗口边框，感觉...不如原生
+    titleBarOverlay: {
+      color: '#2f3241',
+      symbolColor: '#74b1be',
+      height: 60
+    },
+    // 设置窗口全透明，无法调整透明度，可通过设置html背景色调整透明度
+    transparent: true
   })
   win.webContents.openDevTools()
   win.loadFile('src/index.html')
