@@ -1,4 +1,16 @@
-const { app, Tray, nativeImage, BrowserWindow, ipcMain, dialog, Menu, MenuItem, nativeTheme, globalShortcut, Notification } = require('electron')
+const {
+  app,
+  Tray,
+  nativeImage,
+  BrowserWindow,
+  ipcMain,
+  dialog,
+  Menu,
+  MenuItem,
+  nativeTheme,
+  globalShortcut,
+  Notification,
+} = require('electron')
 const path = require('node:path')
 
 let win
@@ -9,9 +21,9 @@ const createWindow = () => {
     width: 800,
     height: 600,
     webPreferences: {
-        preload: path.join(__dirname, 'script/preload.js')
+      preload: path.join(__dirname, 'script/preload.js'),
     },
-    icon: path.join(__dirname,'../public/logo.png'),
+    icon: path.join(__dirname, '../public/logo.png'),
     // 消除窗口边框和原生菜单栏
     titleBarStyle: 'hidden',
     // 似乎是同上
@@ -20,10 +32,10 @@ const createWindow = () => {
     titleBarOverlay: {
       color: '#2f3241',
       symbolColor: '#74b1be',
-      height: 60
+      height: 60,
     },
     // 设置窗口全透明，无法调整透明度，可通过设置html背景色调整透明度
-    transparent: true
+    transparent: true,
   })
   win.webContents.openDevTools()
   win.loadFile('src/index.html')
@@ -36,24 +48,31 @@ function createMenu() {
       submenu: [
         {
           click: () => win.webContents.send('update-counter', 'Increment'),
-          label: 'Increment'
+          label: 'Increment',
         },
         {
           click: () => win.webContents.send('update-counter', 'Decrement'),
-          label: 'Decrement'
-        }
-      ]
-    }
+          label: 'Decrement',
+        },
+      ],
+    },
   ])
-  menu.append(new MenuItem({
-    label: 'Electron',
-    submenu: [{
-      role: 'help',
-      // 监听快捷键，需要应用获取焦点
-      accelerator: process.platform === 'darwin' ? 'Alt+Cmd+I' : 'Alt+Shift+I',
-      click: () => { console.log('Electron rocks!') }
-    }]
-  }))
+  menu.append(
+    new MenuItem({
+      label: 'Electron',
+      submenu: [
+        {
+          role: 'help',
+          // 监听快捷键，需要应用获取焦点
+          accelerator:
+            process.platform === 'darwin' ? 'Alt+Cmd+I' : 'Alt+Shift+I',
+          click: () => {
+            console.log('Electron rocks!')
+          },
+        },
+      ],
+    })
+  )
   Menu.setApplicationMenu(menu)
 }
 
@@ -70,7 +89,10 @@ if (!gotTheLock) {
       if (win.isMinimized()) win.restore()
       win.focus()
     }
-    dialog.showErrorBox('Welcome Back', `You arrived from: ${commandLine.pop().slice(0, -1)}`)
+    dialog.showErrorBox(
+      'Welcome Back',
+      `You arrived from: ${commandLine.pop().slice(0, -1)}`
+    )
   })
 
   app.whenReady().then(() => {
@@ -110,7 +132,7 @@ async function openFileHandler() {
 
 function portHandler(event) {
   const port = event.ports[0]
-  port.on('message',(e) => {
+  port.on('message', (e) => {
     const data = e.data
     console.log(data)
   })
@@ -129,7 +151,9 @@ function changeThemeHandler() {
 function setProtocolClient() {
   if (process.defaultApp) {
     if (process.argv.length >= 2) {
-      app.setAsDefaultProtocolClient('electron-fiddle', process.execPath, [path.resolve(process.argv[1])])
+      app.setAsDefaultProtocolClient('electron-fiddle', process.execPath, [
+        path.resolve(process.argv[1]),
+      ])
     }
   } else {
     app.setAsDefaultProtocolClient('electron-fiddle')
@@ -143,7 +167,7 @@ function openNotification() {
 
   new Notification({
     title: NOTIFICATION_TITLE,
-    body: NOTIFICATION_BODY
+    body: NOTIFICATION_BODY,
   }).show()
 }
 
@@ -159,7 +183,7 @@ function createProgress() {
     if (c < 2) {
       c += INCREMENT
     } else {
-      c = (-INCREMENT * 5)
+      c = -INCREMENT * 5
     }
   }, INTERVAL_DELAY)
 }
@@ -172,7 +196,9 @@ function quitApplication() {
 
 // 创建托盘，也就是右下角里的小图标
 function createTray() {
-  const icon = nativeImage.createFromPath(path.join(__dirname,'../public/logo.png'))
+  const icon = nativeImage.createFromPath(
+    path.join(__dirname, '../public/logo.png')
+  )
   const tray = new Tray(icon)
 
   const contextMenu = Menu.buildFromTemplate([
@@ -193,7 +219,7 @@ function createJumpList() {
       iconPath: process.execPath,
       iconIndex: 0,
       title: 'New Window',
-      description: 'Create a new window'
-    }
+      description: 'Create a new window',
+    },
   ])
 }

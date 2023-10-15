@@ -1,32 +1,35 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <!-- https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CSP -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-  <title>你好!</title>
-</head>
-<body>
-<h1>你好!</h1>
-<p id="info"></p>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CSP -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'"
+    />
+    <title>你好!</title>
+  </head>
+  <body>
+    <h1>你好!</h1>
+    <p id="info"></p>
 
-<input />
-<button id="button">更新标题</button>
-<br><br>
+    <input />
+    <button id="button">更新标题</button>
+    <br /><br />
 
-<button id="openFile">打开文件</button>
-<span id="path">未选择路径</span>
-<br><br>
+    <button id="openFile">打开文件</button>
+    <span id="path">未选择路径</span>
+    <br /><br />
 
-<span>菜单当前选择为：</span>
-<span id="selectedValue">当前未选择</span>
-<br><br>
+    <span>菜单当前选择为：</span>
+    <span id="selectedValue">当前未选择</span>
+    <br /><br />
 
-<button id="changeTheme">切换主题</button>
-<br><br>
+    <button id="changeTheme">切换主题</button>
+    <br /><br />
 
-<span id="output"></span>
-</body>
-<script src="script/renderer.js"></script>
-<link href="style/styles.css" rel="stylesheet" />
+    <span id="output"></span>
+  </body>
+  <script src="script/renderer.js"></script>
+  <link href="style/styles.css" rel="stylesheet" />
 </html>

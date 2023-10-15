@@ -1,9 +1,18 @@
-body { background: #ffffffcc; color: white; }
-
-@media (prefers-color-scheme: dark) {
-  body { background: #33333333; color: white; }
+body {
+  background: #ffffffcc;
+  color: white;
 }
 
 @media (prefers-color-scheme: dark) {
-  body { background: #dddddddd; color: black; }
+  body {
+    background: #33333333;
+    color: white;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #dddddddd;
+    color: black;
+  }
 }

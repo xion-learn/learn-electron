@@ -1,7 +1,7 @@
 module.exports = {
   packagerConfig: {
     asar: true,
-    icon: '/public/logo' // no file extension required
+    icon: '/public/logo', // no file extension required
   },
   rebuildConfig: {},
   makers: [
@@ -34,12 +34,12 @@ module.exports = {
       config: {
         repository: {
           owner: 'xionkq',
-          name: 'electron-study'
+          name: 'electron-study',
         },
         authToken: process.env.GITHUB_TOKEN,
         prerelease: false,
-        draft: true
-      }
-    }
-  ]
-};
+        draft: true,
+      },
+    },
+  ],
+}

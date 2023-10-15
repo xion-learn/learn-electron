@@ -1,6 +1,5 @@
 const information = document.getElementById('info')
-information.innerText =
-  `本应用正在使用 Chrome (v${window.versions.chrome()}),Node.js (v${window.versions.node()}),和 Electron (v${window.versions.electron()})`
+information.innerText = `本应用正在使用 Chrome (v${window.versions.chrome()}),Node.js (v${window.versions.node()}),和 Electron (v${window.versions.electron()})`
 
 // 通信：渲染器进程 => 主进程
 const button = document.getElementById('button')
@@ -33,7 +32,11 @@ changeThemeButton.addEventListener('click', () => {
 
 // 实践：渲染器进程使用通知
 const NOTIFICATION_TITLE = 'Title'
-const NOTIFICATION_BODY = 'Notification from the Renderer process. Click to log to console.'
+const NOTIFICATION_BODY =
+  'Notification from the Renderer process. Click to log to console.'
 const CLICK_MESSAGE = 'Notification clicked!'
-new window.Notification(NOTIFICATION_TITLE, { body: NOTIFICATION_BODY })
-  .onclick = () => { document.getElementById('output').innerText = CLICK_MESSAGE }
+new window.Notification(NOTIFICATION_TITLE, {
+  body: NOTIFICATION_BODY,
+}).onclick = () => {
+  document.getElementById('output').innerText = CLICK_MESSAGE
+}
